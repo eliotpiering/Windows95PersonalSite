@@ -41,5 +41,5 @@
 }
 
 .draggable {
-    position: fixed;
+    position: absolute;
 }

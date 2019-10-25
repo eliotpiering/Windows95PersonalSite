@@ -1,4 +1,8 @@
-<div class="card card-tertiary" id="folder-<%= @slug %>" class="draggable"> <!--  draggable="true" ondragstart="dragstartHandler(event)"> -->
+<div
+  class="card card-tertiary draggable"
+  id="<%= @slug %>"
+  phx-hook="CardWindow"
+  style="transform: translate(<%= @folder.x %>px,<%= @folder.y %>px);">
     <div class="card-header">
         <span class="icon icon-xs w95-folder"></span>
         <span class="ml-4"><%= @title %></span>
@@ -18,5 +22,3 @@
         </div>
     </div>
 </div>
-
-

@@ -36,39 +36,56 @@ import 'trix'
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
 
-let liveSocket = new LiveSocket("/live", Socket)
-liveSocket.connect()
 
 
-window.moveWindow = function(id) {
-    var winElement = document.getElementById(id);
-    var dragBar = winElement.getElementsByClassName("card-header")[0];
-    var isMoving = false;
-    var initialX = null;
-    var initialY = null;
-    var initialRect = winElement.getBoundingClientRect();
+let Hooks = {};
+Hooks.CardWindow = {
+    mounted() {
+        moveWindow(this.el.id, this.pushEvent.bind(this));
+    },
+    destroyed() {
+        // removeEventListeners
+    }
+};
 
-    dragBar.addEventListener('mousedown', function(e){
-        isMoving = true;
-        initialX = e.offsetX + initialRect.left;
-        initialY = e.offsetY + initialRect.top;
-        return true;
-    });
-    window.addEventListener('mouseup', function(e){
-        isMoving = false;
-        //TODO update server side with position of dropped window
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks});
+liveSocket.connect();
 
-        return true;
-    });
-    window.addEventListener('mousemove', function(e) {
+window.moveWindow = function(id, pushEvent) {
+    const winElement = document.getElementById(id);
+    const dragBar = winElement.getElementsByClassName("card-header")[0];
+    let isMoving = false;
+    let initialX = null;
+    let initialY = null;
+    const initialRect = winElement.getBoundingClientRect();
+    const mouseMoveEventHandler = function(e) {
         if(!isMoving) {
             return true;
         } else {
-            var x = (e.clientX - initialX) + "px";
-            var y = (e.clientY - initialY) + "px";
+            let x = e.clientX - initialX + "px";
+            let y = e.clientY - initialY + "px";
             winElement.style.transition = "transform 5ms ease";
             winElement.style.transform = "translate(" + x + " , " + y + ")";
             return true;
         }
-    });
-}
+    };
+    const mouseUpEventHandler = function(e){
+        isMoving = false;
+
+        pushEvent("card_window_moved", {slug: id, x: e.clientX - initialX, y: e.clientY - initialY});
+        window.removeEventListener('mousemove', mouseMoveEventHandler);
+        window.removeEventListener('mouseup', mouseUpEventHandler);
+        return true;
+    };
+
+    const mouseDownHandler = function(e){
+        isMoving = true;
+        initialX = e.offsetX + initialRect.left;
+        initialY = e.offsetY + initialRect.top;
+        window.addEventListener('mousemove', mouseMoveEventHandler);
+        window.addEventListener('mouseup', mouseUpEventHandler);
+        return true;
+    };
+
+    dragBar.addEventListener('mousedown', mouseDownHandler);
+};
