@@ -1,0 +1,20 @@
+<div class="card card-tertiary">
+    <div class="card-header">
+        <span class="icon icon-xs w95-folder"></span>
+        <span class="ml-4"><%= @title %></span>
+    </div>
+    <div class="card-body">
+      <form>
+        <input value="<%= @file.contents %>" type="hidden" name="content">
+        <trix-editor class="trix-content"></trix-editor>
+      </form>
+
+        <div class="d-flex mt-3">
+            <button phx-click="close" phx-value-slug="<%= @slug %>" class="btn btn-sm btn-primary" type="button">
+                <span class="btn-text">Cancel</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
