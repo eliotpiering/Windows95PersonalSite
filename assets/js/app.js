@@ -30,7 +30,9 @@ import "url-search-params-polyfill"
 import "formdata-polyfill"
 import "classlist-polyfill"
 
-import 'trix'
+import * as Trix from 'trix';
+
+window.Trix = Trix;
 
 
 import {Socket} from "phoenix"
@@ -48,10 +50,18 @@ Hooks.CardWindow = {
     }
 };
 
+Hooks.ResumeWindow = {
+    mounted() {
+        attachDownloadButton(this.el);
+    }
+};
+
+
+
 let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks});
 liveSocket.connect();
 
-window.moveWindow = function(id, pushEvent) {
+const moveWindow = function(id, pushEvent) {
     const winElement = document.getElementById(id);
     const dragBar = winElement.getElementsByClassName("card-header")[0];
     let isMoving = false;
@@ -88,4 +98,12 @@ window.moveWindow = function(id, pushEvent) {
     };
 
     dragBar.addEventListener('mousedown', mouseDownHandler);
+};
+
+const attachDownloadButton = function(element) {
+    const button = new Trix.Attachment({ content: "<a href='/resume.pdf' class='btn btn-primary' download>Download PDF Version of this Resume</a>" });
+    const editor = element.getElementsByTagName("trix-editor")[0].editor;
+    editor.insertAttachment(button);
+    editor.insertLineBreak();
+    editor.insertLineBreak();
 };

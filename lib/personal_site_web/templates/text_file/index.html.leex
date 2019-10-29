@@ -3,10 +3,13 @@
         <span class="icon icon-xs w95-folder"></span>
         <span class="ml-4"><%= @title %></span>
     </div>
-    <div class="card-body">
-      <form>
-        <input value="<%= @file.contents %>" type="hidden" name="content">
-        <trix-editor class="trix-content"></trix-editor>
+    <div
+      class="card-body"
+      phx-hook="ResumeWindow"
+    >
+      <form class="word-text-editor">
+        <input id="file-input-<%= @slug %>" value="<%= @file.contents %>" type="hidden" name="content">
+        <trix-editor input="file-input-<%= @slug %>" class="trix-content"></trix-editor>
       </form>
 
         <div class="d-flex mt-3">
