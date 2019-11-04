@@ -1,44 +1,81 @@
-<div class="text-white">
 <div class="row">
-  <div class="col-sm">
-    Current temperature: <%= @temperature %>
-    Current User ID: <%= @user_id %>
+  <div class="col" phx-click="run_program" phx-value-path="/fun_projects">
+    <h6>Fun Projects2</h6>
+    <span class="icon w95-folder"></span>
   </div>
-</div>
-<div class="row">
-  <div class="col-sm" phx-click="open_obj" phx-value-slug="fun_projects">
+
+  <div class="col" phx-click="open_obj" phx-value-slug="fun_projects">
     <h6>Fun Projects</h6>
     <span class="icon w95-folder"></span>
   </div>
 
-  <div class="col-sm" phx-click="open_obj" phx-value-slug="work_projects">
+  <div class="col" phx-click="open_obj" phx-value-slug="work_projects">
     <h6>Work Projects</h6>
     <span class="icon w95-folder"></span>
   </div>
 </div>
 <br>
 <div class="row">
-  <div class="col-sm" phx-click="open_obj" phx-value-slug="resume">
+  <div class="col" phx-click="open_obj" phx-value-slug="resume">
     <h6>Resume</h6>
     <span class="icon w95-text-file"></span>
   </div>
 
-  <div class="col-sm">
+  <div class="col">
     <h6>About</h6>
     <span class="icon w95-text-file-a"></span>
   </div>
 
-  <div class="col-sm" phx-click="open_obj" phx-value-slug="music">
+  <div class="col" phx-click="open_obj" phx-value-slug="music">
     <h6>Music</h6>
     <span class="icon w95-folder"></span>
   </div>
 
 </div>
-</div>
 
-
-<%= for {slug, obj} <- @open_objs do %>
+<%= for {pid, program} <- @programs do %>
   <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-    <%= obj_render(slug, obj) %>
+    <div class="card card-tertiary draggable"
+      id="<%= pid %>"
+      phx-hook="CardWindow"
+      style="transform: translate(<%= program.x %>px,<%= program.y %>px);">
+      <div class="card-header">
+          <span class="icon icon-xs w95-folder"></span>
+          <span class="ml-4"><%= program.title %></span>
+          <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="close_program" phx-value-pid="<%= pid %>">
+            <span class="btn-text fa fa-times"></span>
+          </span>
+      </div>
+      <!-- CARD BODY -->
+      <%= display_program(program) %>
+      <div class="card-footer text-muted">
+        <div class="d-flex mt-3">
+            <button phx-click="close_program" phx-value-pid="<%= pid %>" class="btn btn-sm btn-primary" type="button">
+                <span class="btn-text">Cancel</span>
+            </button>
+        </div>
+      </div>
   </div>
 <% end %>
+
+<nav class="navbar fixed-bottom navbar-expand-lg navbar-dark justify-content-between text-black">
+  <ul class="navbar-nav navbar-nav-hover flex-row align-items-center">
+    <li class="nav-item">
+      <a href="../index.html" class="nav-link" role="button">
+        <span class="icon w95-windows ml-1"></span>
+        <span class="nav-link-inner-text  ml-4 pl-1">Start</span>
+      </a>
+    </li>
+    <%= for {pid, program} <- @programs do %>
+      <li class="nav-item">
+        <a href="#" class="nav-link" role="button">
+          <span class="ml-1 <%= icon_class(program) %>"></span>
+          <span class="nav-link-inner-text  ml-4 pl-1"><%= program.title %></span>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <div class="time text-center">
+    <%= live_render(@socket, PersonalSiteWeb.ClockLiveView, id: "navbar-clock") %>
+  </div>
+</nav>

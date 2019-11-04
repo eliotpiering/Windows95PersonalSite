@@ -1,48 +1,35 @@
 defmodule PersonalSiteWeb.DesktopView do
   use PersonalSiteWeb, :view
 
-  def obj_render(slug, %PersonalSite.Folder{} = folder) do
+  def show_process(slug, %PersonalSite.Folder{} = folder) do
     Phoenix.View.render(PersonalSiteWeb.FolderView, "index.html", %{title: folder.title, folder: folder, slug: slug})
   end
 
-  def obj_render(slug, %PersonalSite.TextFile{} = file) do
+  def show_process(slug, %PersonalSite.TextFile{} = file) do
     Phoenix.View.render(PersonalSiteWeb.TextFileView, "index.html", %{title: file.title, file: file, slug: slug})
   end
 
-
-  # def obj_render(slug, obj) do
-  #   window_header(slug, obj) |> window_body(slug, obj) |> window_footer(slug, obj) |> raw
-  # end
-
-  defp window_header(slug, obj) do
-    ~s(
-      <div class="card card-tertiary">
-        <div class="card-header">
-          <span class="icon icon-xs w95-folder"></span>
-          <span class="ml-4">#{obj.title}</span>
-        </div>
-      <div class="card-body">
-    )
+  def display_process(pid) do
+    dir = PersonalSite.Program.value(pid)
+    Phoenix.View.render(PersonalSiteWeb.ExplorerView, "index.html", %{cwd: dir})
   end
 
-  defp window_body(html, slug, obj = %PersonalSite.Folder{}) do
-    html <> PersonalSite.Folder.body_html(slug, obj)
+  def display_program(program = %PersonalSite.Program{type: :explorer}) do
+    Phoenix.View.render(PersonalSiteWeb.ExplorerView, "index.html", %{program: program})
   end
 
-  defp window_body(html, slug, obj = %PersonalSite.TextFile{}) do
-    html <> PersonalSite.TextFile.body_html(slug, obj)
+  def display_program(program = %PersonalSite.Program{type: :markdown}) do
+    Phoenix.View.render(PersonalSiteWeb.MarkdownView, "index.html", %{markdown: program.file.contents})
   end
 
-  defp window_footer(html, slug, obj) do
-    html <> ~s(
-      <div class="d-flex mt-3">
-        <button phx-click="close" phx-value-slug="#{slug}" class="btn btn-sm btn-primary" type="button">
-          <span class="btn-text">Cancel</span>
-        </button>
-      </div>
-      </div>
-      </div>
-    )
+  # TODO this is duplicated here and in the ExplorerView
+  def icon_class(%PersonalSite.Program{type: :explorer}) do
+    "icon w95-folder"
   end
+
+  def icon_class(_) do
+    "icon w95-text-file"
+  end
+
 
 end

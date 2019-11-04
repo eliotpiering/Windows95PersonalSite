@@ -1,0 +1,19 @@
+<div class="card-body">
+    <table class="table table-bordered table-hover table-sm table-responsive" >
+      <thead>
+        <tr phx-click="explorer_back" phx-value-pid="<%= @program.pid %>">
+          <th> <span class="fa fa-arrow-left">Back</span> </th>
+        </tr>
+      <tbody>
+        <%= for file <- (@program.file.files) do %>
+          <tr phx-click="explorer_open_file"
+              phx-value-path="<%= file.path %>"
+              phx-value-pid="<%= @program.pid %>"
+          >
+            <td><span class="<%= icon_class(file) %>"></span></td>
+            <td><%= file.title %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</div>

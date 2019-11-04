@@ -1,24 +1,7 @@
-<div
-  class="card card-tertiary draggable"
-  id="<%= @slug %>"
-  phx-hook="CardWindow"
-  style="transform: translate(<%= @folder.x %>px,<%= @folder.y %>px);">
-    <div class="card-header">
-        <span class="icon icon-xs w95-folder"></span>
-        <span class="ml-4"><%= @title %></span>
-    </div>
-    <div class="card-body">
-        <p><%= @folder.description %></p>
-        <ul>
-            <li>
-            </li>
-        </ul>
-
-
-        <div class="d-flex mt-3">
-            <button phx-click="close" phx-value-slug="<%= @slug %>" class="btn btn-sm btn-primary" type="button">
-                <span class="btn-text">Cancel</span>
-            </button>
-        </div>
-    </div>
+<div class="card-body">
+    <p><%= @folder.description %></p>
+    <ul>
+        <li>
+        </li>
+    </ul>
 </div>

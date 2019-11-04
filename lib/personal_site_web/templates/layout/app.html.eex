@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
 
   </head>
-  <body class="d-flex flex-column bg-secondary">
-    <main role="main" class="container-fluid">
+  <body class="d-flex flex-column bg-secondary container-fluid p-0 overflow-hidden">
+    <main role="main" class="h-100">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>

@@ -50,9 +50,12 @@ Hooks.CardWindow = {
     }
 };
 
-Hooks.ResumeWindow = {
+Hooks.TextFileWindow = {
     mounted() {
         attachDownloadButton(this.el);
+    },
+    updated() {
+        updateTrixContent(this.el);
     }
 };
 
@@ -82,13 +85,16 @@ const moveWindow = function(id, pushEvent) {
     const mouseUpEventHandler = function(e){
         isMoving = false;
 
-        pushEvent("card_window_moved", {slug: id, x: e.clientX - initialX, y: e.clientY - initialY});
+        pushEvent("card_window_moved", {pid: id, x: e.clientX - initialX, y: e.clientY - initialY});
         window.removeEventListener('mousemove', mouseMoveEventHandler);
         window.removeEventListener('mouseup', mouseUpEventHandler);
         return true;
     };
 
     const mouseDownHandler = function(e){
+        if(e.target.getAttribute("phx-click") === "close") {
+            return true;
+        }
         isMoving = true;
         initialX = e.offsetX + initialRect.left;
         initialY = e.offsetY + initialRect.top;
@@ -101,9 +107,17 @@ const moveWindow = function(id, pushEvent) {
 };
 
 const attachDownloadButton = function(element) {
+    if(element.getElementsByClassName("input-for-resume").length > 0) {
+        const button = new Trix.Attachment({ content: "<a href='/resume.pdf' class='btn btn-primary' download>Download PDF Version of this Resume</a>" });
+        const editor = element.getElementsByTagName("trix-editor")[0].editor;
+        editor.insertAttachment(button);
+        editor.insertLineBreak();
+        editor.insertLineBreak();
+    }
+};
+
+const updateTrixContent = function(element) {
     const button = new Trix.Attachment({ content: "<a href='/resume.pdf' class='btn btn-primary' download>Download PDF Version of this Resume</a>" });
     const editor = element.getElementsByTagName("trix-editor")[0].editor;
-    editor.insertAttachment(button);
-    editor.insertLineBreak();
-    editor.insertLineBreak();
-};
+    editor.insertHTML("<strong></strong>");
+}

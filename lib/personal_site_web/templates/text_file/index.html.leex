@@ -1,23 +1,11 @@
-<div class="card card-tertiary">
-    <div class="card-header">
-        <span class="icon icon-xs w95-folder"></span>
-        <span class="ml-4"><%= @title %></span>
-    </div>
-    <div
-      class="card-body"
-      phx-hook="ResumeWindow"
-    >
-      <form class="word-text-editor">
-        <input id="file-input-<%= @slug %>" value="<%= @file.contents %>" type="hidden" name="content">
-        <trix-editor input="file-input-<%= @slug %>" class="trix-content"></trix-editor>
-      </form>
-
-        <div class="d-flex mt-3">
-            <button phx-click="close" phx-value-slug="<%= @slug %>" class="btn btn-sm btn-primary" type="button">
-                <span class="btn-text">Cancel</span>
-            </button>
-        </div>
-    </div>
+<div
+  class="card-body"
+  phx-hook="TextFileWindow"
+>
+  <form class="word-text-editor">
+    <input class="input-for-<%= @slug %>" id="file-input-<%= @slug %>" value="<%= @file.contents %>" type="hidden" name="content">
+    <trix-editor input="file-input-<%= @slug %>" class="trix-content"></trix-editor>
+  </form>
 </div>
 
 
