@@ -18,7 +18,7 @@ defmodule PersonalSiteWeb.Router do
     pipe_through :browser
 
     # get "/", PageController, :index
-    live "/", DesktopLiveView, session: [:user_id], container: {:div, class: "text-white h-100"}
+    live "/", DesktopLiveView, session: [], container: {:div, class: "text-white h-100"}
   end
 
   # Other scopes may use custom stacks.

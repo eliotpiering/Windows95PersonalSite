@@ -1,4 +1,3 @@
 defmodule PersonalSite.TextFile do
-  defstruct slug: "", title: "Empty Text File", contents: ""
-
+  defstruct name: "", path: "", title: "Empty Text File", contents: ""
 end

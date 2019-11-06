@@ -1,17 +1,25 @@
 defmodule PersonalSite.Program do
-  defstruct pid: "", x: 0, y: 0, title: "", file: nil, type: nil
+  defstruct pid: "", title: "", file: nil, type: nil
 
   def run(path) do
     case PersonalSite.Directory.lookup(path) do
-      file = %PersonalSite.TextFile2{} ->
+      file = %PersonalSite.TextFile{} ->
         {:ok,
-         %PersonalSite.Program{title: "Markdown viewer", type: :markdown, file: file, pid: Ecto.UUID.generate()}}
+         %PersonalSite.Program{
+           title: "Markdown viewer",
+           type: :markdown,
+           file: file,
+           pid: Ecto.UUID.generate()
+         }}
 
-      # %PersonalSite.ImageFile{} ->
-      #   start_link(4)
-
-      # %PersonalSite.MusicFile{} ->
-      #   {:ok, 4}
+      file = %PersonalSite.MusicFile{} ->
+        {:ok,
+         %PersonalSite.Program{
+           title: "Music Player - #{file.name}",
+           type: :music,
+           file: file,
+           pid: Ecto.UUID.generate()
+         }}
 
       dir = %PersonalSite.Directory{} ->
         {:ok,

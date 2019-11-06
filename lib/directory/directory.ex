@@ -1,13 +1,63 @@
 defmodule PersonalSite.Directory do
-  defstruct name: "", title: "", path: "", files: []
+  defstruct path: "", files: [], name: "", title: ""
+
+  def base_dir do
+    Path.join([File.cwd!(), "assets", "static", "desktop"])
+  end
 
   def root do
+    as_personal_site_directory(base_dir())
+  end
+
+  def as_personal_site_directory(actual_file_path) do
+    files =
+      File.ls!(actual_file_path)
+      |> Enum.map(fn file_name ->
+        as_personal_site_files(Path.join(actual_file_path, file_name))
+      end)
+
+    internal_path = actual_path_to_internal_path(actual_file_path)
+
     %PersonalSite.Directory{
-      name: "/",
-      path: "/",
-      title: "root",
-      files: [fun_projects("/"), work_projects("/"), music("/"), resume("/"), about("/")]
+      path: "/" <> internal_path,
+      files: files,
+      name: Path.basename(internal_path),
+      title: Path.basename(internal_path)
     }
+  end
+
+  def as_personal_site_files(actual_file_path) do
+    case File.stat!(actual_file_path) do
+      %File.Stat{type: :directory} ->
+        as_personal_site_directory(actual_file_path)
+
+      _ ->
+        ext = Path.extname(actual_file_path)
+
+        cond do
+          ext == ".md" ->
+            %PersonalSite.TextFile{
+              path: actual_path_to_internal_path(actual_file_path),
+              name: Path.basename(actual_file_path),
+              contents: File.read!(actual_file_path)
+            }
+
+          Enum.member?([".mp3", ".wav", ".ogg", ".flac"], ext) ->
+            internal_path = actual_path_to_internal_path(actual_file_path)
+            name = Path.basename(actual_file_path)
+
+            %PersonalSite.MusicFile{
+              path: internal_path,
+              name: name,
+              title: name,
+              url: PersonalSiteWeb.Endpoint.static_path("/desktop/" <> internal_path)
+            }
+        end
+    end
+  end
+
+  def actual_path_to_internal_path(actual_path) do
+    Path.relative_to(actual_path, base_dir())
   end
 
   def lookup("/") do
@@ -45,7 +95,12 @@ defmodule PersonalSite.Directory do
   end
 
   def parent_directory(path) do
-    path |> String.split("/", trim: true) |> List.delete_at(-1) |> Enum.join("/") |> (&<>/2).("/") |> lookup
+    path
+    |> String.split("/", trim: true)
+    |> List.delete_at(-1)
+    |> Enum.join("/")
+    |> (&<>/2).("/")
+    |> lookup
   end
 
   def fun_projects(parent_path) do
@@ -73,19 +128,20 @@ defmodule PersonalSite.Directory do
 
   def music(parent_path) do
     name = "music"
+    path = parent_path <> name <> "/"
 
     %PersonalSite.Directory{
       name: name,
       title: "Music Stuff",
-      files: [],
-      path: parent_path <> name <> "/"
+      files: music_folder_files(path),
+      path: path
     }
   end
 
   def resume(parent_path) do
     name = "resume.md"
 
-    %PersonalSite.TextFile2{
+    %PersonalSite.TextFile{
       name: name,
       contents: """
       # Windows 95'd theme website
@@ -103,7 +159,7 @@ defmodule PersonalSite.Directory do
   def about(parent_path) do
     name = "about.md"
 
-    %PersonalSite.TextFile2{
+    %PersonalSite.TextFile{
       name: name,
       contents: """
       # Windows 95'd theme website
@@ -133,7 +189,7 @@ defmodule PersonalSite.Directory do
   def this_site_readme(parent_path) do
     name = "readme.md"
 
-    %PersonalSite.TextFile2{
+    %PersonalSite.TextFile{
       name: name,
       contents: """
       # Windows 95'd theme website
@@ -146,5 +202,19 @@ defmodule PersonalSite.Directory do
       """,
       path: parent_path <> name <> "/"
     }
+  end
+
+  def music_folder_files(parent_path) do
+    name = "Creatures of Habit"
+
+    [
+      %PersonalSite.MusicFile{
+        path: parent_path <> name <> "/",
+        name: name,
+        title: name,
+        artist: "Tenant",
+        url: PersonalSiteWeb.Endpoint.static_path("/music/creatures-of-habit-mix-3-Tenant.wav")
+      }
+    ]
   end
 end

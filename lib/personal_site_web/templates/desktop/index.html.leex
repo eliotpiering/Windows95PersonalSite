@@ -1,44 +1,19 @@
-<div class="row">
-  <div class="col" phx-click="run_program" phx-value-path="/fun_projects">
-    <h6>Fun Projects2</h6>
-    <span class="icon w95-folder"></span>
-  </div>
-
-  <div class="col" phx-click="open_obj" phx-value-slug="fun_projects">
-    <h6>Fun Projects</h6>
-    <span class="icon w95-folder"></span>
-  </div>
-
-  <div class="col" phx-click="open_obj" phx-value-slug="work_projects">
-    <h6>Work Projects</h6>
-    <span class="icon w95-folder"></span>
-  </div>
-</div>
-<br>
-<div class="row">
-  <div class="col" phx-click="open_obj" phx-value-slug="resume">
-    <h6>Resume</h6>
-    <span class="icon w95-text-file"></span>
-  </div>
-
-  <div class="col">
-    <h6>About</h6>
-    <span class="icon w95-text-file-a"></span>
-  </div>
-
-  <div class="col" phx-click="open_obj" phx-value-slug="music">
-    <h6>Music</h6>
-    <span class="icon w95-folder"></span>
-  </div>
-
+<div class="row p-3">
+  <%= for file <- @root_files do %>
+    <div class="col" phx-click="run_program" phx-value-path="<%= file.path %>">
+      <h6><%= file.title %></h6>
+      <span class="<%= icon_class(file) %>"></span>
+    </div>
+  <% end %>
 </div>
 
 <%= for {pid, program} <- @programs do %>
+  <% window_info = Map.get(@window_infos, pid) %>
   <div class="col-12 col-lg-6 mb-4 mb-lg-0">
     <div class="card card-tertiary draggable"
       id="<%= pid %>"
       phx-hook="CardWindow"
-      style="transform: translate(<%= program.x %>px,<%= program.y %>px);">
+      style="transform: translate(<%= window_info.x %>px,<%= window_info.y %>px); z-index: <%= window_info.z %>;">
       <div class="card-header">
           <span class="icon icon-xs w95-folder"></span>
           <span class="ml-4"><%= program.title %></span>
@@ -51,7 +26,7 @@
       <div class="card-footer text-muted">
         <div class="d-flex mt-3">
             <button phx-click="close_program" phx-value-pid="<%= pid %>" class="btn btn-sm btn-primary" type="button">
-                <span class="btn-text">Cancel</span>
+                <span class="btn-text">Close</span>
             </button>
         </div>
       </div>

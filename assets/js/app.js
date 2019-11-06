@@ -92,7 +92,7 @@ const moveWindow = function(id, pushEvent) {
     };
 
     const mouseDownHandler = function(e){
-        if(e.target.getAttribute("phx-click") === "close") {
+        if(e.target.getAttribute("phx-click") === "close_program") {
             return true;
         }
         isMoving = true;

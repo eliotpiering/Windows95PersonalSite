@@ -6,6 +6,10 @@ defmodule PersonalSiteWeb.ExplorerView do
     "icon w95-folder"
   end
 
+  def icon_class(%PersonalSite.MusicFile{}) do
+    "icon w95-music-cd"
+  end
+
   def icon_class(_) do
     "icon w95-text-file"
   end
