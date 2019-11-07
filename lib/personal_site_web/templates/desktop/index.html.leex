@@ -37,10 +37,27 @@
   </div>
 <% end %>
 
+<%= if @show_windows_menu do %>
+    <div id="windows-menu">
+      <table class="table table-hover table-sm table-borderles" >
+        <thead>
+        </thead>
+        <tbody>
+          <%= for file <- (@root_files) do %>
+            <tr phx-click="run_program"
+                phx-value-path="<%= file.path %>">
+              <td><%= file.name %></td>
+              <td><span class="<%= icon_class(file) %>"></span></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+<% end %>
 <nav class="navbar fixed-bottom navbar-expand-lg navbar-dark justify-content-between text-black">
   <ul class="navbar-nav navbar-nav-hover flex-row align-items-center">
     <li class="nav-item">
-      <a href="../index.html" class="nav-link" role="button">
+      <a href="#" phx-click="toggle_windows_menu" class="nav-link" role="button">
         <span class="icon w95-windows ml-1"></span>
         <span class="nav-link-inner-text  ml-4 pl-1">Start</span>
       </a>

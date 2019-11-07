@@ -54,12 +54,12 @@ html, body {
     -webkit-user-select: none; /* Safari */
 }
 
-.nav-item-minimize {
-
+#windows-menu{
+    width: 400px;
+    position: absolute;
+    bottom: 20px;
+    overflow-x: hidden;
 }
-
-
-
 
 /* -------------------------------------------------- TRIX STYLES -------------------------------------------------- */
 .card-body { padding: 0px; }

@@ -10,7 +10,8 @@ defmodule PersonalSiteWeb.DesktopLiveView do
      assign(socket,
        root_files: PersonalSite.Directory.root().files,
        programs: %{},
-       window_infos: %{}
+       window_infos: %{},
+       show_windows_menu: false
      )}
   end
 
@@ -83,6 +84,14 @@ defmodule PersonalSiteWeb.DesktopLiveView do
      assign(
        socket,
        window_infos: Map.put(socket.assigns.window_infos, value["pid"], moved_program)
+     )}
+  end
+
+  def handle_event("toggle_windows_menu", value, socket) do
+    {:noreply,
+     assign(
+       socket,
+       show_windows_menu: !socket.assigns.show_windows_menu
      )}
   end
 end
