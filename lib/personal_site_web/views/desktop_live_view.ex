@@ -38,14 +38,29 @@ defmodule PersonalSiteWeb.DesktopLiveView do
      )}
   end
 
+  def handle_event("minimize_program", %{"pid" => pid}, socket) do
+    # {:ok, assign(socket, pids: MapSet.delete(socket.assigns.pids, pid))}
+    new_window_infos = PersonalSite.WindowInfo.minimize(pid, socket.assigns.window_infos)
+
+    {:noreply,
+     assign(socket,
+       window_infos: Map.merge(socket.assigns.window_infos, new_window_infos)
+     )}
+  end
+
   # TODO put these in explorerLiveView
   def handle_event("explorer_open_file", %{"pid" => pid, "path" => path}, socket) do
     program = Map.get(socket.assigns.programs, pid)
     new_programs = PersonalSite.Program.execute(:open_file, program, path)
     existing_windows = socket.assigns.window_infos
-    new_windows = new_programs |> Map.keys |> Enum.reduce(existing_windows, fn (pid, windows) ->
-      Map.put(windows, pid, PersonalSite.WindowInfo.new_window(pid, windows))
-    end)
+
+    new_windows =
+      new_programs
+      |> Map.keys()
+      |> Enum.reduce(existing_windows, fn pid, windows ->
+        Map.put(windows, pid, PersonalSite.WindowInfo.new_window(pid, windows))
+      end)
+
     {:noreply,
      assign(socket,
        programs: Map.merge(socket.assigns.programs, new_programs),

@@ -6,7 +6,7 @@ defmodule PersonalSite.Program do
       file = %PersonalSite.TextFile{} ->
         {:ok,
          %PersonalSite.Program{
-           title: "Markdown viewer",
+           title: "Markdown viewer - #{file.name}",
            type: :markdown,
            file: file,
            pid: Ecto.UUID.generate()
@@ -24,7 +24,7 @@ defmodule PersonalSite.Program do
       dir = %PersonalSite.Directory{} ->
         {:ok,
          %PersonalSite.Program{
-           title: "Explorer - #{dir.title}",
+           title: "Explorer - #{dir.name}",
            type: :explorer,
            file: dir,
            pid: Ecto.UUID.generate()
@@ -44,7 +44,7 @@ defmodule PersonalSite.Program do
         program
 
       dir = %PersonalSite.Directory{} ->
-        new_program = program |> Map.put(:file, dir) |> Map.put(:title, "Explorer - #{dir.title}")
+        new_program = program |> Map.put(:file, dir) |> Map.put(:title, "Explorer - #{dir.name}")
         IO.inspect(new_program, label: "asdfasdf")
         new_program
     end
@@ -58,7 +58,7 @@ defmodule PersonalSite.Program do
     case PersonalSite.Directory.lookup(path) do
       dir = %PersonalSite.Directory{} ->
         updated_program =
-          program |> Map.put(:file, dir) |> Map.put(:title, "Explorer - #{dir.title}")
+          program |> Map.put(:file, dir) |> Map.put(:title, "Explorer - #{dir.name}")
 
         %{program.pid => updated_program}
 

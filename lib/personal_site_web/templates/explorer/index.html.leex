@@ -4,14 +4,14 @@
         <tr phx-click="explorer_back" phx-value-pid="<%= @program.pid %>">
           <th> <span class="fa fa-arrow-left">Back</span> </th>
         </tr>
+      </thead>
       <tbody>
         <%= for file <- (@program.file.files) do %>
           <tr phx-click="explorer_open_file"
               phx-value-path="<%= file.path %>"
-              phx-value-pid="<%= @program.pid %>"
-          >
+              phx-value-pid="<%= @program.pid %>">
             <td><span class="<%= icon_class(file) %>"></span></td>
-            <td><%= file.title %></td>
+            <td><%= file.name %></td>
           </tr>
         <% end %>
       </tbody>

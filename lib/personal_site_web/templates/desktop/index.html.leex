@@ -1,7 +1,7 @@
 <div class="row p-3">
   <%= for file <- @root_files do %>
     <div class="col" phx-click="run_program" phx-value-path="<%= file.path %>">
-      <h6><%= file.title %></h6>
+      <h6><%= file.name %></h6>
       <span class="<%= icon_class(file) %>"></span>
     </div>
   <% end %>
@@ -9,7 +9,7 @@
 
 <%= for {pid, program} <- @programs do %>
   <% window_info = Map.get(@window_infos, pid) %>
-  <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+  <div class="col-12 col-lg-6 mb-4 mb-lg-0" <%= if window_info.minimized, do: 'hidden' %>>
     <div class="card card-tertiary draggable"
       id="<%= pid %>"
       phx-hook="CardWindow"
@@ -19,6 +19,9 @@
           <span class="ml-4"><%= program.title %></span>
           <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="close_program" phx-value-pid="<%= pid %>">
             <span class="btn-text fa fa-times"></span>
+          </span>
+          <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="minimize_program" phx-value-pid="<%= pid %>">
+            <span class="btn-text fa fa-minus"></span>
           </span>
       </div>
       <!-- CARD BODY -->
@@ -30,6 +33,7 @@
             </button>
         </div>
       </div>
+    </div>
   </div>
 <% end %>
 
@@ -42,8 +46,9 @@
       </a>
     </li>
     <%= for {pid, program} <- @programs do %>
+      <% window_info = Map.get(@window_infos, pid)%>
       <li class="nav-item">
-        <a href="#" class="nav-link" role="button">
+        <a phx-click="minimize_program" phx-value-pid="<%= pid %>" class="nav-link <%= unless window_info.minimized, do: 'border-dark' %>" role="button">
           <span class="ml-1 <%= icon_class(program) %>"></span>
           <span class="nav-link-inner-text  ml-4 pl-1"><%= program.title %></span>
         </a>

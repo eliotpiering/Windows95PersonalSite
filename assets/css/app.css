@@ -49,9 +49,17 @@ html, body {
 .draggable {
     position: absolute;
     user-select: none;
+    min-width: 600px;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
 }
+
+.nav-item-minimize {
+
+}
+
+
+
 
 /* -------------------------------------------------- TRIX STYLES -------------------------------------------------- */
 .card-body { padding: 0px; }
