@@ -20,7 +20,7 @@ defmodule PersonalSite.MixProject do
   def application do
     [
       mod: {PersonalSite.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :edeliver],
     ]
   end
 
@@ -46,7 +46,9 @@ defmodule PersonalSite.MixProject do
       {:phoenix_live_view, "~> 0.3.0"},
       {:floki, ">= 0.0.0", only: :test},
       {:earmark, "~> 1.4.2"},
-      {:calendar, "~> 1.0"}
+      {:calendar, "~> 1.0"},
+      {:distillery, "~> 2.1", warn_missing: false},
+      {:edeliver, ">= 1.6.0"},
     ]
   end
 

@@ -1,0 +1,9 @@
+APP="personal_site"
+
+BUILD_HOST="personal_site"
+BUILD_USER="eliot"
+BUILD_AT="/home/eliot/personal_site"
+
+PRODUCTION_HOSTS="personal_site" 
+PRODUCTION_USER="eliot" 
+DELIVER_TO="/home/eliot/personal_site_release" 
