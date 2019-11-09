@@ -18,7 +18,9 @@ config :personal_site, PersonalSiteWeb.Endpoint,
   url: [host: "about-me.eliotpiering.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
-  code_reloader: false
+  root: ".",
+  code_reloader: false,
+  version: Mix.Project.config[:version]
 
 # Do not print debug messages in production
 config :logger, level: :info
