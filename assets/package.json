@@ -20,7 +20,7 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@fortawesome/fontawesome-free": "^5.11.2",
-    "@themesberg/windows-95-ui-kit": "github:themesberg/windows-95-ui-kit",
+    "@themesberg/windows-95-ui-kit": "github:themesberg/windows-95-ui-kit#cbd4bfc5b4d1c14612fce126d2977c8cf2b12f5b",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^2.1.1",
