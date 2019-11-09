@@ -15,7 +15,7 @@ config :personal_site, PersonalSite.Repo,
 
 config :personal_site, PersonalSiteWeb.Endpoint,
   http: [port: 4000],
-  url: [host: "eliotpiering.com", port: 80],
+  url: [host: "about-me.eliotpiering.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false
