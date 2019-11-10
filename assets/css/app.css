@@ -10,6 +10,11 @@
 /* MAIN DESKTOP VIEW */
 html, body {
     height: 100vh;
+    background: url(../images/background-no-icon.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 /* Alerts and form errors */
@@ -46,14 +51,24 @@ html, body {
     margin: -1rem 0 2rem;
 }
 
+/* ------------------------ Main Window Styles ---------------------- */
+.card-window {
+    max-height: 800px;
+    overflow-y: auto;
+}
+
 .draggable {
     position: absolute;
-    user-select: none;
     min-width: 600px;
+}
+.draggable .card-header {
+    user-select: none;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
 }
 
+
+/* -------------------------------- Navigation Menu -------------------------- */
 #windows-menu{
     width: 400px;
     position: absolute;
@@ -77,3 +92,27 @@ html, body {
 }
 
 
+/* ---------------------------------------------- AUDIO PLAYER STYLES ------------------------- */
+.music-player audio {
+    width: 100%;
+}
+.music-player img {
+    max-width: 500px;
+}
+
+.album-description {
+    white-space: pre;
+}
+
+
+/* -------------------------------------------- MARKDOWN VIEW STYLES --------------------------- */
+.markdown-view h1, .markdown-view h2, .markdown-view h3, .markdown-view h4 .markdown-view h5, .markdown-view p, .markdown-view label, .markdown-view div, .markdown-view blockquote, .markdown-view pre, .markdown-view ul, .markdown-view li {
+    font-family: TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
+    font-style: normal;
+    font-variant: normal;
+}
+.markdown-view strong {
+    font-style: bold;
+    font-weight: 800;
+
+}

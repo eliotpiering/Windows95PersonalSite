@@ -26,7 +26,8 @@ defmodule PersonalSiteWeb.DesktopLiveView do
            socket.assigns.window_infos,
            program.pid,
            PersonalSite.WindowInfo.new_window(program.pid, socket.assigns.window_infos)
-         )
+         ),
+       show_windows_menu: false
      )}
   end
 

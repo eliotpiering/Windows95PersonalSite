@@ -1,21 +1,21 @@
-<div class="row p-3">
-  <%= for file <- @root_files do %>
-    <div class="col" phx-click="run_program" phx-value-path="<%= file.path %>">
-      <h6><%= file.name %></h6>
+<%= for file <- @root_files do %>
+  <div class="row ml-2 p-3">
+    <div class="col-3" phx-click="run_program" phx-value-path="<%= file.path %>">
+      <h5><%= file.name %></h5>
       <span class="<%= icon_class(file) %>"></span>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
 <%= for {pid, program} <- @programs do %>
   <% window_info = Map.get(@window_infos, pid) %>
   <div class="col-12 col-lg-6 mb-4 mb-lg-0" <%= if window_info.minimized, do: 'hidden' %>>
-    <div class="card card-tertiary draggable"
+    <div class="card card-tertiary draggable card-window"
       id="<%= pid %>"
       phx-hook="CardWindow"
       style="transform: translate(<%= window_info.x %>px,<%= window_info.y %>px); z-index: <%= window_info.z %>;">
       <div class="card-header">
-          <span class="icon icon-xs w95-folder"></span>
+          <span class="<%= icon_class(program) %> icon-xs"></span>
           <span class="ml-4"><%= program.title %></span>
           <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="close_program" phx-value-pid="<%= pid %>">
             <span class="btn-text fa fa-times"></span>
@@ -38,7 +38,7 @@
 <% end %>
 
 <%= if @show_windows_menu do %>
-    <div id="windows-menu">
+    <div id="windows-menu" class="ml-2">
       <table class="table table-hover table-sm table-borderles" >
         <thead>
         </thead>

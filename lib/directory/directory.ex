@@ -17,13 +17,14 @@ defmodule PersonalSite.Directory do
       |> Enum.map(fn file_name ->
         as_personal_site_files(Path.join(actual_file_path, file_name))
       end)
+      |> Enum.filter(&(!is_nil(&1)))
 
     internal_path = actual_path_to_internal_path(actual_file_path)
 
     %PersonalSite.Directory{
       path: "/" <> internal_path,
       files: files,
-      name: Path.basename(internal_path),
+      name: Path.basename(internal_path)
     }
   end
 
@@ -34,24 +35,21 @@ defmodule PersonalSite.Directory do
 
       _ ->
         ext = Path.extname(actual_file_path)
+        internal_path = actual_path_to_internal_path(actual_file_path)
 
         cond do
           ext == ".md" ->
             %PersonalSite.TextFile{
-              path: actual_path_to_internal_path(actual_file_path),
+              path: internal_path,
               name: Path.basename(actual_file_path),
               contents: File.read!(actual_file_path)
             }
 
           Enum.member?([".mp3", ".wav", ".ogg", ".flac"], ext) ->
-            internal_path = actual_path_to_internal_path(actual_file_path)
-            name = Path.basename(actual_file_path)
+            PersonalSite.MusicFile.new(actual_file_path, internal_path)
 
-            %PersonalSite.MusicFile{
-              path: internal_path,
-              name: name,
-              url: PersonalSiteWeb.Endpoint.static_path("/desktop/" <> internal_path)
-            }
+          true ->
+            nil
         end
     end
   end

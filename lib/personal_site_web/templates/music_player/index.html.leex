@@ -1,4 +1,26 @@
-<div class="card-body">
-  <audio src="<%= @music_file.url %>" controls>
-  </audio> 
+<div class="card-body music-player">
+  <div class="p-2 m-2">
+    <p class="m-0">
+      <label>Artist: </label> <span class="font-weight-bold"><%= @music_file.artist %></span>
+    </p>
+    <p class="m-0">
+      <label>Album: </label><span class="font-weight-bold"><b><%= @music_file.album_title %></b></span>
+    </p>
+  </div>
+  <div class="text-center">
+    <img class="img-fluid card-img-top" src="<%= @music_file.album_art %>" alt="<%= @music_file.album_title %>">
+  </div>
+  <audio src="<%= @music_file.url %>" controls></audio>
+  <div class="p-2 m-2">
+    <p class="m-0">
+      <label>Song Name: </label><span class="font-weight-bold"><b><%= @music_file.name %></b></span>
+    </p>
+    <%= if @music_file.album_description do %>
+      <p class="m-0 album-description">
+        <span class="font-weight-bold">
+          <%= @music_file.album_description %>
+        </span>
+      </p>
+    <% end %>
+  </div>
 </div>

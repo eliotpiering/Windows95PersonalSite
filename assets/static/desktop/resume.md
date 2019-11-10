@@ -28,7 +28,7 @@ Experienced full-stack developer specializing in Ruby and JavaScript. Versatile,
 
 ### Experience {#experience}
 
-KnowInk
+__KnowInk__
 : *Software Developer*  
   __October 2017 - October 2019__
 
@@ -39,7 +39,7 @@ KnowInk
 * Integrated with a wide collection of third party Voter Registration systems.
 * Engaged closely with clients to plan work and offer creative solutions for achieving any desired election day flows.
 
-LaunchCode
+__LaunchCode__
 : *Software Developer*  
   __April 2015 - May 2017__
 
@@ -49,7 +49,7 @@ LaunchCode
 * Collaborated on the creation of internal agile processes, instituting regular feedback loops, project planning/estimating, and code reviews ensuring high quality code that provides effective business solutions.
 
 
-Radialogica
+__Radialogica__
 : *Software Developer*  
   __October 2013 - April 2015__
 
