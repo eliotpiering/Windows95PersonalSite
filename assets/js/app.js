@@ -72,14 +72,15 @@ const moveWindow = function(id, pushEvent) {
     let initialY = null;
     const initialRect = winElement.getBoundingClientRect();
     const mouseMoveEventHandler = function(e) {
+        e.preventDefault();
         if(!isMoving) {
-            return true;
+            return false;
         } else {
             let x = e.clientX - initialX + "px";
             let y = e.clientY - initialY + "px";
             winElement.style.transition = "transform 5ms ease";
             winElement.style.transform = "translate(" + x + " , " + y + ")";
-            return true;
+            return false;
         }
     };
     const mouseUpEventHandler = function(e){
@@ -87,24 +88,33 @@ const moveWindow = function(id, pushEvent) {
 
         pushEvent("card_window_moved", {pid: id, x: e.clientX - initialX, y: e.clientY - initialY});
         window.removeEventListener('mousemove', mouseMoveEventHandler);
+        window.removeEventListener('touchmove', mouseMoveEventHandler);
+
         window.removeEventListener('mouseup', mouseUpEventHandler);
+        window.removeEventListener('touchstart', mouseUpEventHandler);
         return true;
     };
 
     const mouseDownHandler = function(e){
-        var anyAction = e.target.getAttribute("phx-click") === "close_program" || e.target.getAttribute("phx-click") === "minimize_program";
-        if(anyAction)  {
+        var otherAction = e.target.getAttribute("phx-click") === "close_program" || e.target.getAttribute("phx-click") === "minimize_program";
+        if(otherAction)  {
             return true;
         }
+
+        e.preventDefault();
         isMoving = true;
         initialX = e.offsetX + initialRect.left;
         initialY = e.offsetY + initialRect.top;
         window.addEventListener('mousemove', mouseMoveEventHandler);
+        window.addEventListener('touchmove', mouseMoveEventHandler);
+
         window.addEventListener('mouseup', mouseUpEventHandler);
-        return true;
+        window.addEventListener('touchstart', mouseUpEventHandler);
+        return false;
     };
 
     dragBar.addEventListener('mousedown', mouseDownHandler);
+    dragBar.addEventListener('touchend', mouseDownHandler);
 };
 
 const attachDownloadButton = function(element) {
