@@ -4,7 +4,7 @@ defmodule PersonalSite.Directory do
   def base_dir do
     # TODO this works only because edeliver BUILD_AT and local directory dir are the same
     # Probably need a better place to store these files
-    Path.join(["home", "eliot", "personal_site", "assets", "static", "desktop"])
+    Path.join(["/home", "eliot", "Develop", "personal_site", "assets", "static", "desktop"])
   end
 
   def root do

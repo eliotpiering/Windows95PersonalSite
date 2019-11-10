@@ -57,7 +57,7 @@ config :logger, level: :info
 #     config :personal_site, PersonalSiteWeb.Endpoint,
 #       force_ssl: [hsts: true]
 #
-# Check `Plug.SSL` for all available options in `force_ssl`.
+# Check `Plug.SSL` for allyour_app available options in `force_ssl`.
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
