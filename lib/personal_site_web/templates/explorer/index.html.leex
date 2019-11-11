@@ -1,19 +1,21 @@
 <div class="card-body">
-    <table class="table table-bordered table-hover table-sm table-responsive" >
-      <thead>
-        <tr phx-click="explorer_back" phx-value-pid="<%= @program.pid %>">
-          <th> <span class="fa fa-arrow-left">Back</span> </th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= for file <- (@program.file.files) do %>
-          <tr phx-click="explorer_open_file"
-              phx-value-path="<%= file.path %>"
-              phx-value-pid="<%= @program.pid %>">
-            <td><span class="<%= icon_class(file) %>"></span></td>
-            <td><%= file.name %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <p phx-click="explorer_back" phx-value-pid="<%= @program.pid %>">
+    <span class="fa fa-arrow-left fa-2x m-2">Back</span>
+  </p>
+
+  <table class="table table-hover table-sm table-responsive" >
+    <thead>
+      <!-- <tr phx-click="explorer_back" phx-value-pid="<%= @program.pid %>"> -->
+        <!-- <th>Name</th> -->
+        <!-- <th>Size</th> -->
+        <!-- <th>Type</th> -->
+        <!-- <th>Modified At</th> -->
+      <!-- </tr> -->
+    </thead>
+    <tbody>
+      <%= for file <- (@program.file.files) do %>
+          <%= program_row(@program, file) %>
+      <% end %>
+    </tbody>
+  </table>
 </div>

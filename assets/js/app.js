@@ -96,8 +96,11 @@ const moveWindow = function(id, pushEvent) {
     };
 
     const mouseDownHandler = function(e){
-        var otherAction = e.target.getAttribute("phx-click") === "close_program" || e.target.getAttribute("phx-click") === "minimize_program";
-        if(otherAction)  {
+        var anyAction = e.target.getAttribute("phx-click");
+        // var otherAction === "close_program"
+        //     || e.target.getAttribute("phx-click") === "minimize_program"
+        // || e.target.u;
+        if(anyAction)  {
             return true;
         }
 

@@ -45,6 +45,9 @@ defmodule PersonalSite.Directory do
               contents: File.read!(actual_file_path)
             }
 
+          ext == ".link" ->
+            PersonalSite.ExternalLink.new(actual_file_path)
+
           Enum.member?([".mp3", ".wav", ".ogg", ".flac"], ext) ->
             PersonalSite.MusicFile.new(actual_file_path, internal_path)
 
@@ -89,7 +92,7 @@ defmodule PersonalSite.Directory do
   end
 
   def parent_directory("/") do
-    root
+    root()
   end
 
   def parent_directory(path) do

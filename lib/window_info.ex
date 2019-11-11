@@ -1,5 +1,5 @@
 defmodule PersonalSite.WindowInfo do
-  defstruct x: 0, y: 0, z: 0, minimized: false
+  defstruct x: 0, y: 0, z: 0, minimized: false, maximized: false
 
   def new_window(pid, current_windows) do
     existing_window = Map.get(current_windows, pid)
@@ -13,8 +13,6 @@ defmodule PersonalSite.WindowInfo do
   end
 
   def minimize(pid, current_windows) do
-    IO.inspect(current_windows, label: "current win")
-    IO.inspect(pid, label: "pid")
     existing_window = Map.get(current_windows, pid)
 
     if existing_window.minimized do
@@ -24,8 +22,13 @@ defmodule PersonalSite.WindowInfo do
     end
   end
 
+  def maximize(pid, current_windows) do
+    window_to_update = Map.get(current_windows, pid)
+    %{current_windows | pid => %{window_to_update | maximized: !window_to_update.maximized}}
+  end
+
   defp move_window_to_front(pid, current_windows) do
-    window_count = current_windows |> Map.keys |> length()
+    window_count = current_windows |> Map.keys() |> length()
     current_z = Map.get(current_windows, pid).z
 
     Enum.reduce(current_windows, current_windows, fn {p, window_info}, windows ->

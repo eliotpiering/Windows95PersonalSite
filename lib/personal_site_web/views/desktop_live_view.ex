@@ -50,6 +50,16 @@ defmodule PersonalSiteWeb.DesktopLiveView do
      )}
   end
 
+  def handle_event("maximize_program", %{"pid" => pid}, socket) do
+    # {:ok, assign(socket, pids: MapSet.delete(socket.assigns.pids, pid))}
+    new_window_infos = PersonalSite.WindowInfo.maximize(pid, socket.assigns.window_infos)
+
+    {:noreply,
+     assign(socket,
+       window_infos: Map.merge(socket.assigns.window_infos, new_window_infos)
+     )}
+  end
+
   # TODO put these in explorerLiveView
   def handle_event("explorer_open_file", %{"pid" => pid, "path" => path}, socket) do
     program = Map.get(socket.assigns.programs, pid)

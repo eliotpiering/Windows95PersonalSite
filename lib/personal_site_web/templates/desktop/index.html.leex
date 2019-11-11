@@ -10,7 +10,7 @@
 <%= for {pid, program} <- @programs do %>
   <% window_info = Map.get(@window_infos, pid) %>
   <div class="col-12 col-lg-6 mb-4 mb-lg-0" <%= if window_info.minimized, do: 'hidden' %>>
-    <div class="card card-tertiary draggable card-window"
+    <div class="card card-tertiary draggable <%= if window_info.maximized, do: 'maximized' %>"
       id="<%= pid %>"
       phx-hook="CardWindow"
       style="transform: translate(<%= window_info.x %>px,<%= window_info.y %>px); z-index: <%= window_info.z %>;">
@@ -20,12 +20,17 @@
           <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="close_program" phx-value-pid="<%= pid %>">
             <span class="btn-text fa fa-times"></span>
           </span>
+          <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="maximize_program" phx-value-pid="<%= pid %>">
+            <span class="btn-text far fa-square font-weight-normal"></span>
+          </span>
           <span class="p-1 m-0 btn btn-sm btn-primary bordered-dark float-right" phx-click="minimize_program" phx-value-pid="<%= pid %>">
             <span class="btn-text fa fa-minus"></span>
           </span>
       </div>
       <!-- CARD BODY -->
-      <%= display_program(program) %>
+      <div class="card-window">
+        <%= display_program(program) %>
+      </div>
       <div class="card-footer text-muted">
         <div class="d-flex mt-3">
             <button phx-click="close_program" phx-value-pid="<%= pid %>" class="btn btn-sm btn-primary" type="button">

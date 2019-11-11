@@ -67,6 +67,16 @@ html, body {
     -webkit-user-select: none; /* Safari */
 }
 
+.maximized {
+    width: 100vw;
+    height: 98vh;
+    transform: translate(0px, 0px) !important;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    position: fixed;
+}
+
 
 /* -------------------------------- Navigation Menu -------------------------- */
 #windows-menu{
